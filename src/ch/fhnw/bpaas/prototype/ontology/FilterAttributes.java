@@ -5,7 +5,6 @@ public enum FilterAttributes {
 	hasAvailabilityInPercent 							("http://ikm-group.ch/archimeo/bpaas#hasAvailabilityInPercent",				"?availabilityValue",	"?availabilityValue >= {0}"),
 	capacityPerformanceIncludesSimultaneousServiceUsers	("http://ikm-group.ch/archimeo/bpaas#capacityIncludesSimultaneousUsers",	"?cpisu", 				"?cpisu >= {0}");
 
-
 	private String property;
 	private String variable;
 	private String comparison;

@@ -9,3 +9,5 @@
 /02_output_TransformedData.ttl
 /03_output_InferencedData.ttl
 /modelOutput.ttl
+/dependency-reduced-pom.xml
+/04_output_InferencedModelCombined.ttl

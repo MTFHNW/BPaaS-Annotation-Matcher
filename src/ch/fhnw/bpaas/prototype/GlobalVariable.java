@@ -2,9 +2,8 @@ package ch.fhnw.bpaas.prototype;
 
 public class GlobalVariable {
 
-	public static final String RESOURCEPATH 						=	"src/main/resources/";
+	public static final String RESOURCEPATH 						=	"main/resources/";
 	public static final String TRANSFORMATIONTEMPLATENAMEANDPATH 	= 	RESOURCEPATH	+	"TransformationTemplate.xsl";
-	public static final String RULESFILENAME 						= 	RESOURCEPATH	+	"rules.txt";
 	
 	public static final String TRANSFORMEDOUTPUTFILE 				= 	"00_output_transformationData.ttl";
 	public static final String INITIALMODEL		 					= 	"01_output_InitialModelData.ttl";

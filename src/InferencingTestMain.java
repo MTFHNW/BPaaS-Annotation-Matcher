@@ -25,11 +25,7 @@ public class InferencingTestMain {
 
 	public InferencingTestMain(){
 		model = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
-//		model.getDocumentManager().setProcessImports(false);
 		model.read("/Users/ben/Documents/workspaces2/master/CloudSocketAlignmentPrototype/ontologies/bpaas.ttl", "TTL");
-//		model.read("/Users/ben/Documents/workspaces2/master/CloudSocketAlignmentPrototype/ontologies/fbpdo.ttl", "TTL");
-//		model.read("/Users/ben/Documents/workspaces2/master/CloudSocketAlignmentPrototype/ontologies/apqc.ttl", "TTL");
-//		model.read("/Users/ben/Documents/workspaces2/master/CloudSocketAlignmentPrototype/ontologies/bpaasrules.ttl", "TTL");
 		model.read(GlobalVariable.TRANSFORMEDOUTPUTFILE, "TTL");
 //		model.read("https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/BPMN/BPMN.ttl", "TTL");
 //		model.read("https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/ARCHIMATE/ArchiMate.ttl", "TTL");

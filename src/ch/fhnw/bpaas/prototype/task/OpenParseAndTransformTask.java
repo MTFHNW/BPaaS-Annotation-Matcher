@@ -30,9 +30,8 @@ public class OpenParseAndTransformTask extends Task<OntModel> {
 		updateMessage("Parsing and transforming file");
 
 		TransformerFactory factory = TransformerFactory.newInstance();
-		
-		Source xslt = new StreamSource(new File(GlobalVariable.TRANSFORMATIONTEMPLATENAMEANDPATH));
-		Transformer transformer = factory.newTransformer(xslt);
+        Source xslt = new StreamSource(this.getClass().getClassLoader().getResourceAsStream(GlobalVariable.TRANSFORMATIONTEMPLATENAMEANDPATH));
+        Transformer transformer = factory.newTransformer(xslt);
 
 		Source text = new StreamSource(file);
 		transformer.transform(text, new StreamResult(new File(GlobalVariable.TRANSFORMEDOUTPUTFILE)));

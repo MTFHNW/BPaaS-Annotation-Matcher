@@ -1,23 +1,23 @@
 package ch.fhnw.bpaas.prototype.ontology;
 
 public enum ONTOLOGY {
-	BPAAS	("bpaas",	"TTL",	"https://raw.githubusercontent.com/benlammel/CloudSocketAlignmentPrototype/master/ontologies/bpaas.ttl",			"/Users/ben/Documents/workspaces2/master/CloudSocketAlignmentPrototype/ontologies/bpaas.ttl"),
-	BPAASRULES	("bpaas",	"TTL",	"https://raw.githubusercontent.com/benlammel/CloudSocketAlignmentPrototype/master/ontologies/bpaasrules.ttl",			"/Users/ben/Documents/workspaces2/master/CloudSocketAlignmentPrototype/ontologies/bpaasrules.ttl"),
-	APQC	("apcq",	"TTL",	"https://raw.githubusercontent.com/benlammel/CloudSocketAlignmentPrototype/master/ontologies/apqc.ttl",				"/Users/ben/Documents/workspaces2/master/CloudSocketAlignmentPrototype/ontologies/apqc.ttl"),
-	FBPDO	("fbpdo",	"TTL",	"https://raw.githubusercontent.com/benlammel/CloudSocketAlignmentPrototype/master/ontologies/fbpdo.ttl",			"/Users/ben/Documents/workspaces2/master/CloudSocketAlignmentPrototype/ontologies/fbpdo.ttl"),
-	TOP		("top",		"TTL",	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/TOP/TOP.ttl",									"/Users/ben/Documents/workspaces/TopBraid/CloudSocket2/ARCHIMEO/TOP/TOP.ttl"),
-	EO		("eo",		"TTL", 	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/EO/EO.ttl", 									"/Users/ben/Documents/workspaces/TopBraid/CloudSocket2/ARCHIMEO/EO/EO.ttl");
-
+	BPAAS	("bpaas",		"TTL",	"https://raw.githubusercontent.com/BPaaSModelling/BPaaS-Ontology/master/bpaas.ttl"),
+	BPAASRULES	("bpaas",	"TTL",	"https://raw.githubusercontent.com/BPaaSModelling/BPaaS-Ontology/master/bpaasrules.ttl"),
+	APQC	("apqc",		"TTL",	"https://raw.githubusercontent.com/BPaaSModelling/APQC-Ontology/master/apqc.ttl"),
+	FBPDO	("fbpdo",		"TTL",	"https://raw.githubusercontent.com/BPaaSModelling/Functional-Business-Process-Description-Ontology/master/fbpdo.ttl"),
+	TOP		("top",			"TTL",	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/TOP/TOP.ttl"),
+	EO		("eo",			"TTL", 	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/EO/EO.ttl"),
+	ARCHIMEO("archimeo",	"TTL", 	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/ArchiMEO.ttl");
+	
 	private String prefix;
 	private String format;
 	private String remoteURL;
 	private String localURL;
 
-	ONTOLOGY(String prefix, String format, String remoteURL, String localURL) {
+	ONTOLOGY(String prefix, String format, String remoteURL) {
 		this.prefix = prefix;
 		this.format = format;
 		this.remoteURL = remoteURL;
-		this.localURL = localURL;
 	}
 
 	public String getRemoteURL() {
