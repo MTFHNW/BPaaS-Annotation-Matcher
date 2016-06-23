@@ -32,16 +32,12 @@
 </xsl:text>
 		<xsl:apply-templates
 			select="//MODEL[@modeltype='Business process diagram (BPMN 2.0)']"
-			mode="BPMN" />
-		<xsl:apply-templates
-			select="//MODEL[@modeltype='Business Process Requirements Model']"
-			mode="BPRequirementsModel" />
-			
+			mode="BPMN" />			
 		<xsl:apply-templates
 			select="//MODEL[@modeltype='Workflow diagram (BPMN 2.0)']" mode="Workflow" />
 		<xsl:apply-templates
-			select="//MODEL[@modeltype='Workflow Descriptions Model']"
-			mode="WorkflowDescriptionsModel" />
+			select="//MODEL[@modeltype='Service description model']"
+			mode="ServiceDescriptionModel" />
 	</xsl:template>
 
 <!-- ============== ==============  Workflow (BPMN 2.0) ============== ==============  -->
@@ -52,6 +48,7 @@ data:<xsl:value-of select="@id"/>
 <xsl:call-template name="elementPostProcessing"/>
 	<xsl:apply-templates select=".//INSTANCE[@class='Task']" mode="WorkflowTask" />
 	<xsl:apply-templates select=".//INSTANCE[@class='Workflow Annotation Group']" mode="WorkflowAnnotationGroup" />
+	<xsl:apply-templates select=".//INSTANCE[@class='Lane']" mode="WorkflowLane" />
 	
 	</xsl:template>
 
@@ -63,14 +60,24 @@ data:<xsl:value-of select="@id"/>
   rdfs:label "<xsl:value-of select="@name"/>"^^xsd:string ;
 <xsl:call-template name="elementPostProcessing"/>
 	</xsl:template>
-	
+
+<!-- ============== Lane ============== -->
+	<xsl:template match="INSTANCE" mode="WorkflowLane">
+data:<xsl:value-of select="@id"/>
+  rdf:type bpmn:Lane ;
+  bpaas:hasReferencedWorkflow data:<xsl:value-of select="../@id"/> ;
+  rdfs:label "<xsl:value-of select="@name"/>"^^xsd:string ;
+  <xsl:apply-templates select="./INTERREF/IREF[@type='objectreference'][@tmodeltype='Service description model']" mode="referencedWorkflowDescription"/>
+<xsl:call-template name="elementPostProcessing"/>
+	</xsl:template>
+
 <!-- ============== Workflow Annotation Group ============== -->
 	<xsl:template match="INSTANCE" mode="WorkflowAnnotationGroup">
 data:<xsl:value-of select="@id"/>
   rdf:type bpaas:WorkflowAnnotationGroup ;
   bpaas:hasReferencedWorkflow data:<xsl:value-of select="../@id"/> ;
   rdfs:label "<xsl:value-of select="@name"/>"^^xsd:string ;
-  <xsl:apply-templates select="./INTERREF/IREF[@type='objectreference'][@tmodeltype='Workflow Descriptions Model']" mode="referencedWorkflowDescription"/>
+  <xsl:apply-templates select="./INTERREF/IREF[@type='objectreference'][@tmodeltype='Service description model']" mode="referencedWorkflowDescription"/>
 <xsl:call-template name="elementPostProcessing"/>
 	</xsl:template>
 <xsl:template name="addReferencedWorkflowDescription">		            
@@ -83,13 +90,14 @@ bpaas:hasReferencedWorkflowDescription data:<xsl:value-of select="$targetId"/> ;
 </xsl:call-template>
 </xsl:template>
 
-<!-- ============== ==============  Workflow Descriptions Model ============== ==============  -->
-	<xsl:template match="MODEL" mode="WorkflowDescriptionsModel">
-	<xsl:apply-templates select=".//INSTANCE[@class='Workflow Description']" mode="WorkflowDescriptions" />
+<!-- ============== ==============  Service description model ============== ==============  -->
+	<xsl:template match="MODEL" mode="ServiceDescriptionModel">
+	<xsl:apply-templates select=".//INSTANCE[@class='Business Process Requirement']" mode="BusinessProcessRequirement" />
+	<xsl:apply-templates select=".//INSTANCE[@class='Workflow Description']" mode="WorkflowDescription" />
 	</xsl:template>
 
 <!-- ============== Workflow Description ============== -->
-	<xsl:template match="INSTANCE" mode="WorkflowDescriptions">
+	<xsl:template match="INSTANCE" mode="WorkflowDescription">
 data:<xsl:value-of select="@id"/>
   rdf:type bpaas:WorkflowDescription ;
   rdfs:label "<xsl:value-of select="@name"/>"^^xsd:string ;
@@ -103,10 +111,6 @@ data:<xsl:value-of select="@id"/>
 <xsl:call-template name="elementPostProcessing"/>
 	</xsl:template>
 
-<!-- ============== ==============  Business Requirements Model ============== ==============  -->
-	<xsl:template match="MODEL" mode="BPRequirementsModel">
-	<xsl:apply-templates select=".//INSTANCE[@class='Business Process Requirement']" mode="BusinessProcessRequirement" />
-	</xsl:template>
 
 <!-- ============== Business Process Requirement ============== -->
 	<xsl:template match="INSTANCE" mode="BusinessProcessRequirement">
@@ -184,7 +188,7 @@ data:<xsl:value-of select="@id"/>
   rdf:type bpaas:BusinessProcessAnnotationGroup ;
   bpaas:hasReferencedBusinessProcess data:<xsl:value-of select="../@id"/> ;
   rdfs:label "<xsl:value-of select="@name"/>"^^xsd:string ;
-  <xsl:apply-templates select="./INTERREF/IREF[@type='objectreference'][@tmodeltype='Business Process Requirements Model']" mode="referencedBusinessProcessRequirement"/>
+  <xsl:apply-templates select="./INTERREF/IREF[@type='objectreference'][@tmodeltype='Service description model']" mode="referencedBusinessProcessRequirement"/>
 <xsl:call-template name="elementPostProcessing"/>
 	</xsl:template>
 <xsl:template name="addReferencedBusinessProcessRequirement">		            
