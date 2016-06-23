@@ -7,7 +7,9 @@ public enum ONTOLOGY {
 	FBPDO	("fbpdo",		"TTL",	"https://raw.githubusercontent.com/BPaaSModelling/Functional-Business-Process-Description-Ontology/master/fbpdo.ttl"),
 	TOP		("top",			"TTL",	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/TOP/TOP.ttl"),
 	EO		("eo",			"TTL", 	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/EO/EO.ttl"),
-	ARCHIMEO("archimeo",	"TTL", 	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/ArchiMEO.ttl");
+	ARCHIMEO("archimeo",	"TTL", 	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/ArchiMEO.ttl"),
+	NCO("nco",	"TTL", 	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/NCO/NCO.ttl"),
+	BMM("bmm",	"TTL", 	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/BMM/BMM.ttl");
 	
 	private String prefix;
 	private String format;
