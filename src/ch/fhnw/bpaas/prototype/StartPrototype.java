@@ -32,7 +32,7 @@ public class StartPrototype extends Application {
 		}
 		
 		//for development only
-//		createAndStartParseTask(new File("/Users/ben/vmtest/export.xml"));
+		createAndStartParseTask(new File("/Users/ben/vmtest/cs/cs_new.xml"));
 	}
 	
 	public static void main(String[] args) {
