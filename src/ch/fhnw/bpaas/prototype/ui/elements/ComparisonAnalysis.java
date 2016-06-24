@@ -50,6 +50,7 @@ public class ComparisonAnalysis {
 		propertyBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasResponseTimeLevel");
 		propertyBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasNumberOfProcessExecution");
 		propertyBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasMediaType");
+		propertyBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasRestoreTime");
 		
 		
 		valueBlackList = new ArrayList<String>();
