@@ -105,6 +105,7 @@ data:<xsl:value-of select="@id"/>
   <xsl:if test="./ATTRIBUTE[@name='Maximum Simultaneous Service Users'] !=''">bpaas:capacityIncludesSimultaneousUsers <xsl:value-of select="./ATTRIBUTE[@name='Maximum Simultaneous Service Users']"/> ;</xsl:if> 
   <xsl:if test="./ATTRIBUTE[@name='Max Available Data Storage per Month'] !=''">bpaas:hasDataStorage <xsl:value-of select="./ATTRIBUTE[@name='Max Available Data Storage per Month']"/> ;</xsl:if> 
   <xsl:if test="./ATTRIBUTE[@name='Max Average Response Time'] !=''">bpaas:hasResponseTime  <xsl:value-of select="./ATTRIBUTE[@name='Max Average Response Time']"/> ;</xsl:if> 
+   <xsl:if test="./ATTRIBUTE[@name='Type of Backup'] !=''">bpaas:hasBackupType <xsl:value-of select="./ATTRIBUTE[@name='Type of Backup']"/> ;</xsl:if>
 	<xsl:call-template name="APQCAnnotation"/>
 	<xsl:call-template name="ObjectAnnotation"/>
 	<xsl:call-template name="ActionAnnotation"/>
@@ -134,7 +135,8 @@ data:<xsl:value-of select="@id"/>
   <xsl:if test="./ATTRIBUTE[@name='Number of process execution'] !=''">bpaas:BPRhasNumberOfProcessExecution <xsl:value-of select="./ATTRIBUTE[@name='Number of process execution']"/> ;</xsl:if>
   <xsl:if test="./ATTRIBUTE[@name='Access Period'] !=''">bpaas:hasBackupAccessPeriod <xsl:value-of select="./ATTRIBUTE[@name='Access Period']"/> ;</xsl:if>
   <xsl:if test="./ATTRIBUTE[@name='Frequency of Backup'] !=''">bpaas:hasBackupFrequency <xsl:value-of select="./ATTRIBUTE[@name='Frequency of Backup']"/> ;</xsl:if> 	
-  <xsl:if test="./ATTRIBUTE[@name='Time of Restore'] !=''">bpaas:hasBackupRestoreTime <xsl:value-of select="./ATTRIBUTE[@name='Time of Restore']"/> ;</xsl:if>	
+  <xsl:if test="./ATTRIBUTE[@name='Time of Restore'] !=''">bpaas:hasRestoreTime <xsl:value-of select="./ATTRIBUTE[@name='Time of Restore']"/> ;</xsl:if>	
+ 	
 	<xsl:call-template name="APQCAnnotation"/>
 	<xsl:call-template name="ObjectAnnotation"/>
 	<xsl:call-template name="ActionAnnotation"/>
