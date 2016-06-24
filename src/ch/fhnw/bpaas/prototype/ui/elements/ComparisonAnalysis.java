@@ -47,9 +47,9 @@ public class ComparisonAnalysis {
 		propertyBlackList = new ArrayList<String>();
 		propertyBlackList.add("http://www.w3.org/2000/01/rdf-schema#label");
 		propertyBlackList.add("http://ikm-group.ch/archimeo/bpaas#hasDowntimePerMonthInMin");
-		propertyBlackList.add("http://ikm-group.ch/archimeo/bpaas#responseTimeIsInMinutes");
-		propertyBlackList.add("http://ikm-group.ch/archimeo/bpaas#businessProcessRequirementHasNumberOfProcessExecution");
-		propertyBlackList.add("http://ikm-group.ch/archimeo/bpaas#businessProcessRequirementHasMediaType");
+		propertyBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasResponseTimeLevel");
+		propertyBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasNumberOfProcessExecution");
+		propertyBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasMediaType");
 		
 		
 		valueBlackList = new ArrayList<String>();
