@@ -124,7 +124,7 @@ data:<xsl:value-of select="@id"/>
   <!--  <xsl:if test="./ATTRIBUTE[@name='Set Expected Frequency of Storage'] !=''">bpaas:backupManagementHasExpectedFrequencyOfStorage <xsl:value-of select="./ATTRIBUTE[@name='Set Expected Frequency of Storage']"/> ;</xsl:if> --> 
   <xsl:if test="./ATTRIBUTE[@name='Data Location Annotation'] !=''">bpaas:DataSecurityRefersToALocation <xsl:value-of select="./ATTRIBUTE[@name='Data Location Annotation']"/> ;</xsl:if>
   <!-- <xsl:value-of select="./ATTRIBUTE[@name='What would you like to upload?']"/> ; --> 
-  <xsl:if test="./ATTRIBUTE[@name='Number of Simultaneous Users'] !=''">bpaas:capacityIncludesSimultaneousUsers <xsl:value-of select="./ATTRIBUTE[@name='Number of Simultaneous Users']"/> ;</xsl:if> 
+  <xsl:if test="./ATTRIBUTE[@name='Number of Simultaneous Users'] !=''">bpaas:hasSimultaneousUsers <xsl:value-of select="./ATTRIBUTE[@name='Number of Simultaneous Users']"/> ;</xsl:if> 
   <xsl:if test="./ATTRIBUTE[@name='Response Time Level'] !=''">bpaas:BPRhasResponseTimeLevel <xsl:value-of select="./ATTRIBUTE[@name='Response Time Level']"/> ;</xsl:if> 
   <!--  <xsl:value-of select="./ATTRIBUTE[@name='Help-Desk Response Time in min']"/> ; -->
   <xsl:if test="./ATTRIBUTE[@name='Payment Plan Annotation'] !=''">bpaas:businessProcessRequirementHasPaymentPlan  <xsl:value-of select="./ATTRIBUTE[@name='Payment Plan Annotation']"/> ;</xsl:if> 
