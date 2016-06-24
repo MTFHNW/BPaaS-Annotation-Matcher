@@ -3,7 +3,8 @@ package ch.fhnw.bpaas.prototype.ontology;
 public enum FilterAttributes {
 	
 	hasAvailabilityInPercent 							("http://ikm-group.ch/archimeo/bpaas#hasAvailabilityInPercent",				"?availabilityValue",	"?availabilityValue >= {0}"),
-	capacityPerformanceIncludesSimultaneousServiceUsers	("http://ikm-group.ch/archimeo/bpaas#capacityIncludesSimultaneousUsers",	"?cpisu", 				"?cpisu >= {0}");
+	hasResponseTime	("http://ikm-group.ch/archimeo/bpaas#hasResponseTime",	"?responseTime", 				"?responseTime >= {0}"),
+	hasSimultaneousUsers	("http://ikm-group.ch/archimeo/bpaas#hasSimultaneousUsers",	"?cpisu", 				"?cpisu >= {0}");
 
 	private String property;
 	private String variable;
