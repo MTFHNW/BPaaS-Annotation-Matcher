@@ -2,11 +2,11 @@ package ch.fhnw.bpaas.prototype.ontology;
 
 public enum FilterAttributes {
 	
-	hasAvailabilityInPercent 							("http://ikm-group.ch/archimeo/bpaas#hasAvailabilityInPercent",				"?availabilityValue",	"?availabilityValue >= {0}"),
-	hasResponseTime	("http://ikm-group.ch/archimeo/bpaas#hasResponseTime",	"?responseTime", 				"?responseTime >= {0}"), //@Ben: hasResponseTime has type "data"
-	hasSimultaneousUsers	("http://ikm-group.ch/archimeo/bpaas#hasSimultaneousUsers",	"?cpisu", 				"?cpisu >= {0}"),
-	hasDataStorage	("http://ikm-group.ch/archimeo/bpaas#hasDataStorage",	"?dataStorage", 				"?dataStorage >= {0}"),
-	hasBackupType	("http://ikm-group.ch/archimeo/bpaas#hasBackupType",	"?backuptype", 				"?backuptype = {0}"); //to riconsider
+	hasAvailabilityInPercent 	("http://ikm-group.ch/archimeo/bpaas#hasAvailabilityInPercent",	"?availabilityValue",	"?availabilityValue >= {0}"),
+	hasResponseTime				("http://ikm-group.ch/archimeo/bpaas#hasResponseTime",			"?responseTime", 		"?responseTime >= \"{0}\"^^xsd:time"),
+	hasSimultaneousUsers		("http://ikm-group.ch/archimeo/bpaas#hasSimultaneousUsers",		"?cpisu", 				"?cpisu >= {0}"),
+	hasDataStorage				("http://ikm-group.ch/archimeo/bpaas#hasDataStorage",			"?dataStorage", 		"?dataStorage >= {0}"),
+	hasBackupType				("http://ikm-group.ch/archimeo/bpaas#hasBackupType",			"?backuptype", 			"?backuptype = {0}"); //to reconsider
 	
 	private String property;
 	private String variable;

@@ -58,6 +58,8 @@ public class ApplicationFrame extends BorderPane implements EventHandler<ActionE
 			fileChooser.setTitle("Open Resource File");
 			File file = fileChooser.showOpenDialog(startEnvironment.getStage());
 			if (file != null) {
+				ontology.setupOntologyEnvironment();
+				centerPanel.setupCombobox();
 				startEnvironment.createAndStartParseTask(file);
 			}
 		}

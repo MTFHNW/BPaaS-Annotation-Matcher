@@ -22,11 +22,12 @@ public class OntologyManager {
 
 	private OntModel rdfModel;
 	
-//	//Workaround: will be replaced by SPIN Rules
-//	@Deprecated
-//	private InfModel inferedModel;
-
 	public OntologyManager() {
+		setupOntologyEnvironment();
+		
+	}
+
+	public void setupOntologyEnvironment() {
 		rdfModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
 		setNamespaces(rdfModel);
 		readExistingModels();
@@ -36,7 +37,6 @@ public class OntologyManager {
 		for(ONTOLOGY ontology : ONTOLOGY.values()){
 			rdfModel.read(ontology.getRemoteURL(),	ontology.getFormat());
 		}
-//		rdfModel.read("/Users/ben/Documents/workspaces2/master/CloudSocketAlignmentPrototype/ontologies/bpaasrules.ttl", "TTL");
 		printToFile(rdfModel, GlobalVariable.INITIALMODEL);
 	}
 
@@ -53,7 +53,6 @@ public class OntologyManager {
 
 		Query query = QueryFactory.create(queryStr.toString());
 		QueryExecution qexec = QueryExecutionFactory.create(query, rdfModel);
-//		QueryExecution qexec = QueryExecutionFactory.create(query, inferedModel);
 		
 		return qexec.execSelect();
 	}
@@ -80,10 +79,4 @@ public class OntologyManager {
 	public OntModel getModel() {
 		return rdfModel;
 	}
-
-//	//Workaround: will be replaced by SPIN Rules
-//	@Deprecated
-//	public void setInfModel(InfModel inferedModel) {
-//		this.inferedModel = inferedModel;
-//	}
 }

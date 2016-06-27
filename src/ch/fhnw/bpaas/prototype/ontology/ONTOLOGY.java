@@ -8,13 +8,12 @@ public enum ONTOLOGY {
 	TOP		("top",			"TTL",	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/TOP/TOP.ttl"),
 	EO		("eo",			"TTL", 	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/EO/EO.ttl"),
 	ARCHIMEO("archimeo",	"TTL", 	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/ArchiMEO.ttl"),
-	NCO("nco",	"TTL", 	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/NCO/NCO.ttl"),
-	BMM("bmm",	"TTL", 	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/BMM/BMM.ttl");
+	NCO		("nco",			"TTL", 	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/NCO/NCO.ttl"),
+	BMM		("bmm",			"TTL", 	"https://raw.githubusercontent.com/ikm-group/ArchiMEO/master/ARCHIMEO/BMM/BMM.ttl");
 	
 	private String prefix;
 	private String format;
 	private String remoteURL;
-	private String localURL;
 
 	ONTOLOGY(String prefix, String format, String remoteURL) {
 		this.prefix = prefix;
@@ -33,9 +32,4 @@ public enum ONTOLOGY {
 	public String getPrefix() {
 		return prefix;
 	}
-
-	public String getLocalURL() {
-		return localURL;
-	}	
-
 }

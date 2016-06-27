@@ -68,6 +68,10 @@ public class CenterPane extends BorderPane {
 		this.setTop(layout);
 	}
 	
+	public void setupCombobox() {
+		createAndAddComboBoxAtTop();
+	}
+	
 	private void setSelectedBusinessProcess(SemanticObject selectedBusinessProcess) {
 		this.chosenBusinessProcess = selectedBusinessProcess;
 		

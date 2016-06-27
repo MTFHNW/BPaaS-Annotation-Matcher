@@ -8,7 +8,6 @@ import java.util.Map;
 import org.apache.jena.query.ParameterizedSparqlString;
 import org.apache.jena.query.QuerySolution;
 import org.apache.jena.query.ResultSet;
-
 import ch.fhnw.bpaas.prototype.ontology.FilterAttributes;
 import ch.fhnw.bpaas.prototype.ontology.OntologyManager;
 import ch.fhnw.bpaas.prototype.ontology.StandardOperations;
@@ -22,8 +21,8 @@ public class ComparisonAnalysis {
 	private OntologyManager ontology;
 	private List<SemanticObject> businessProcessRequirementsList;
 	
-	private ArrayList<String> propertyBlackList;
-	private ArrayList<String> valueBlackList;
+	private ArrayList<String> predicateBlackList;
+	private ArrayList<String> objectBlackList;
 	private ArrayList<String> filterList;
 	
 	private ObservableList<Map> allData = FXCollections.observableArrayList();
@@ -44,17 +43,17 @@ public class ComparisonAnalysis {
 	}
 	
 	private void createAndFillBlackLists() {
-		propertyBlackList = new ArrayList<String>();
-		propertyBlackList.add("http://www.w3.org/2000/01/rdf-schema#label");
-		propertyBlackList.add("http://ikm-group.ch/archimeo/bpaas#hasDowntimePerMonthInMin");
-		propertyBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasResponseTimeLevel");
-		propertyBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasNumberOfProcessExecution");
-		propertyBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasMediaType");
-		propertyBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasRestoreTime");
+		predicateBlackList = new ArrayList<String>();
+		predicateBlackList.add("http://www.w3.org/2000/01/rdf-schema#label");
+		predicateBlackList.add("http://ikm-group.ch/archimeo/bpaas#hasDowntimePerMonthInMin");
+		predicateBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasResponseTimeLevel");
+		predicateBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasNumberOfProcessExecution");
+		predicateBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasMediaType");
+		predicateBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasRestoreTime");
 		
 		
-		valueBlackList = new ArrayList<String>();
-		valueBlackList.add("http://ikm-group.ch/archimeo/bpaas#BusinessProcessRequirement");
+		objectBlackList = new ArrayList<String>();
+		objectBlackList.add("http://ikm-group.ch/archimeo/bpaas#BusinessProcessRequirement");
 	}
 
 	private void analyseWorkflow(){
@@ -96,16 +95,22 @@ public class ComparisonAnalysis {
 	private ParameterizedSparqlString generateFilers() {
 		ParameterizedSparqlString queryStr = new ParameterizedSparqlString();
 		if(!filterList.isEmpty()){
-			boolean first = true;
-			queryStr.append("FILTER(");
+			
 			for(String filter : filterList){
-				if(!first){
-					queryStr.append("&&");
-				}
-				queryStr.append(filter);
-				first = false;
+				queryStr.append("FILTER(" +filter +")");
 			}
-			queryStr.append(")");
+			
+			
+//			boolean first = true;
+//			queryStr.append("FILTER(");
+//			for(String filter : filterList){
+//				if(!first){
+//					queryStr.append("&&");
+//				}
+//				queryStr.append(filter);
+//				first = false;
+//			}
+//			queryStr.append(")");
 			filterList.clear();
 		}
 		return queryStr;
@@ -114,7 +119,7 @@ public class ComparisonAnalysis {
 	private ParameterizedSparqlString genereateAttributeTriples(ArrayList<Attribute> arrayList) {
 		ParameterizedSparqlString queryStr = new ParameterizedSparqlString();
 		for(Attribute attribute : arrayList){
-			if(!propertyBlackList.contains(attribute.getProperty()) && !valueBlackList.contains(attribute.getValue())){
+			if(!predicateBlackList.contains(attribute.getProperty()) && !objectBlackList.contains(attribute.getValue())){
 				if(FilterAttributes.contains(attribute.getProperty())){
 					FilterAttributes tempAttr = FilterAttributes.get(attribute.getProperty());
 					queryStr.append("?wfd <" +attribute.getProperty() +"> " +tempAttr.getVariable() +" .");
