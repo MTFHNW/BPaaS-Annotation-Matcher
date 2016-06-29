@@ -122,7 +122,7 @@ data:<xsl:value-of select="@id"/>
 	<xsl:if test="./ATTRIBUTE[@name='24/7 Support'] ='true'">
 		bpaas:SupportServiceHasServiceSupportPeriod bpaas:24-7 ;
 	</xsl:if>
-
+	
 	<xsl:call-template name="APQCAnnotation"/>
 	<xsl:call-template name="ObjectAnnotation"/>
 	<xsl:call-template name="ActionAnnotation"/>
@@ -167,6 +167,22 @@ data:<xsl:value-of select="@id"/>
   <xsl:if test="./ATTRIBUTE[@name='Access Period'] !=''">bpaas:hasBackupAccessPeriod <xsl:value-of select="./ATTRIBUTE[@name='Access Period']"/> ;</xsl:if>
   <xsl:if test="./ATTRIBUTE[@name='Frequency of Backup'] !=''">bpaas:hasBackupFrequency <xsl:value-of select="./ATTRIBUTE[@name='Frequency of Backup']"/> ;</xsl:if> 	
   <xsl:if test="./ATTRIBUTE[@name='Time of Restore'] !=''">bpaas:hasRestoreTime <xsl:value-of select="./ATTRIBUTE[@name='Time of Restore']"/> ;</xsl:if>	
+ 
+ 
+ <xsl:if test="./ATTRIBUTE[@name='24/7 Support'] ='false'">
+		<xsl:if test="./ATTRIBUTE[@name='Support Service'] !=''">
+			<xsl:call-template name="EnumerationListParser">
+    			<xsl:with-param name="input" select="concat(./ATTRIBUTE[@name='Support Service'], ';')"/>
+    			<xsl:with-param name="propertyname" select="'bpaas:BPRhasSupportServicePeriod'"/>
+			</xsl:call-template>
+			
+    			<xsl:if test="./ATTRIBUTE[@name='Support Start Hour'] !=''">bpaas:BPRhasSupportStartHour  "<xsl:value-of select="substring(./ATTRIBUTE[@name='Support Start Hour'],8,13)"/>"^^xsd:time ;</xsl:if>
+    			<xsl:if test="./ATTRIBUTE[@name='Support End Hour'] !='00:000:00:00:00'">bpaas:BPRhasSupportEndHour  "<xsl:value-of select="substring(./ATTRIBUTE[@name='Support End Hour'],8,13)"/>"^^xsd:time ;</xsl:if>
+		</xsl:if> 
+	</xsl:if>
+	<xsl:if test="./ATTRIBUTE[@name='24/7 Support'] ='true'">
+		bpaas:BPRhasSupportServicePeriod bpaas:24-7 ;
+	</xsl:if>
  
  
  	

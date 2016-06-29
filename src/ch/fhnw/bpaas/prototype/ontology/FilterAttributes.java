@@ -6,7 +6,9 @@ public enum FilterAttributes {
 	hasResponseTime				("http://ikm-group.ch/archimeo/bpaas#hasResponseTime",			"?responseTime", 		"?responseTime >= \"{0}\"^^xsd:time"),
 	hasSimultaneousUsers		("http://ikm-group.ch/archimeo/bpaas#hasSimultaneousUsers",		"?cpisu", 				"?cpisu >= {0}"),
 	hasDataStorage				("http://ikm-group.ch/archimeo/bpaas#hasDataStorage",			"?dataStorage", 		"?dataStorage >= {0}"),
-	hasBackupType				("http://ikm-group.ch/archimeo/bpaas#hasBackupType",			"?backuptype", 			"?backuptype = {0}"); //to reconsider
+	hasBackupType				("http://ikm-group.ch/archimeo/bpaas#hasBackupType",			"?backuptype", 			"?backuptype = {0}"), //to reconsider
+	serviceSupportEndHour		("http://ikm-group.ch/archimeo/bpaas#serviceSupportEndHour",	"?starthr", 			"?starthr <= \"{0}\"^^xsd:time"),
+	serviceSupportStartHour		("http://ikm-group.ch/archimeo/bpaas#serviceSupportStartHour",	"?endhr", 				"?endhr >= \"{0}\"^^xsd:time");
 	
 	private String property;
 	private String variable;
