@@ -53,7 +53,7 @@ public class ComparisonAnalysis {
 		predicateBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasSupportStartHour");
 		predicateBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasSupportEndHour");
 		predicateBlackList.add("http://ikm-group.ch/archimeo/bpaas#BPRhasSupportServicePeriod");
-		
+		predicateBlackList.add("http://ikm-group.ch/archimeo/bpaas#WFDhasEncryptionType");
 		
 		objectBlackList = new ArrayList<String>();
 		objectBlackList.add("http://ikm-group.ch/archimeo/bpaas#BusinessProcessRequirement");
