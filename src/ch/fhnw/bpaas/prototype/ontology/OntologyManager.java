@@ -11,16 +11,21 @@ import org.apache.jena.query.QueryExecution;
 import org.apache.jena.query.QueryExecutionFactory;
 import org.apache.jena.query.QueryFactory;
 import org.apache.jena.query.ResultSet;
+import org.apache.jena.rdf.model.InfModel;
 import org.apache.jena.rdf.model.Model;
 import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.reasoner.Reasoner;
+import org.apache.jena.reasoner.rulesys.RDFSRuleReasonerFactory;
 import org.apache.jena.riot.Lang;
 import org.apache.jena.riot.RDFDataMgr;
+import org.apache.jena.vocabulary.ReasonerVocabulary;
 
 import ch.fhnw.bpaas.prototype.GlobalVariable;
 
 public class OntologyManager {
 
 	private OntModel rdfModel;
+	private InfModel inferencedModel;
 	
 	public OntologyManager() {
 		setupOntologyEnvironment();

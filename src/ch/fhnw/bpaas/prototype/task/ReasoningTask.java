@@ -26,6 +26,7 @@ public class ReasoningTask extends Task<Void> {
 		updateMessage("Applying Reasoning Rules");
 		try {
 			inferedModel = ModelFactory.createOntologyModel(OntModelSpec.OWL_MEM);
+//			inferedModel = ModelFactory.createOntologyModel(OntModelSpec.RDFS_MEM_RDFS_INF);
 		    SPINModuleRegistry.get().init();
 		    ontology.getModel().addSubModel(inferedModel);
 		    
@@ -38,6 +39,8 @@ public class ReasoningTask extends Task<Void> {
 //			
 //			inferedModel = ModelFactory.createInfModel(reasoner, ontology.getModel());
 //			ontology.setInfModel(inferedModel);
+			
+//			ontology.startInferencing();
 
 			ontology.printToFile(inferedModel, GlobalVariable.INFERENCEDMODEL);
 		} catch (Exception e) {
