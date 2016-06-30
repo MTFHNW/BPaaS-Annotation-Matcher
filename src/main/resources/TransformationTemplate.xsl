@@ -101,21 +101,52 @@ bpaas:hasReferencedWorkflowDescription data:<xsl:value-of select="$targetId"/> ;
 data:<xsl:value-of select="@id"/>
   rdf:type bpaas:WorkflowDescription ;
   rdfs:label "<xsl:value-of select="@name"/>"^^xsd:string ;
-  <xsl:if test="./ATTRIBUTE[@name='Availability in %'] !='0.000000'">bpaas:hasAvailabilityInPercent <xsl:value-of select="./ATTRIBUTE[@name='Availability in %']"/> ;</xsl:if> 
+  <xsl:if test="./ATTRIBUTE[@name='Availability in %'] !='0'">bpaas:hasAvailabilityInPercent <xsl:value-of select="./ATTRIBUTE[@name='Availability in %']"/> ;</xsl:if> 
   <xsl:if test="./ATTRIBUTE[@name='Maximum Simultaneous Service Users'] !='0'">bpaas:hasSimultaneousUsers <xsl:value-of select="./ATTRIBUTE[@name='Maximum Simultaneous Service Users']"/> ;</xsl:if> 
   <xsl:if test="./ATTRIBUTE[@name='Maximum Simultaneous Connections'] !='0'">bpaas:WFDhasMaxiumSimultaneousConnections <xsl:value-of select="./ATTRIBUTE[@name='Maximum Simultaneous Connections']"/> ;</xsl:if>
-  <xsl:if test="./ATTRIBUTE[@name='Max Available Data Storage in GB per Month'] !='0'">bpaas:hasDataStorage <xsl:value-of select="./ATTRIBUTE[@name='Max Available Data Storage per Month']"/> ;</xsl:if> 
+  <xsl:if test="./ATTRIBUTE[@name='Max Available Data Storage in GB per Month'] !='0'">bpaas:hasDataStorage <xsl:value-of select="./ATTRIBUTE[@name='Max Available Data Storage in GB per Month']"/> ;</xsl:if> 
   <xsl:if test="./ATTRIBUTE[@name='Max Average Response Time'] !='00:000:00:00:00'">bpaas:hasResponseTime  "<xsl:value-of select="substring(./ATTRIBUTE[@name='Max Average Response Time'],8,13)"/>"^^xsd:time ;</xsl:if>
-<xsl:if test="./ATTRIBUTE[@name='Type of Encryption Annotation'] !=''">bpaas:WFDhasEncryptionType <xsl:value-of select="./ATTRIBUTE[@name='Type of Encryption Annotation']"/> ;</xsl:if> //this property is assigned to instance(s)
-<xsl:if test="./ATTRIBUTE[@name='Promised Retention Time in Years'] !=''">bpaas:hasRetentionTimeInYears <xsl:value-of select="./ATTRIBUTE[@name='Promised Retention Time in Years']"/> ;</xsl:if>
-  <xsl:if test="./ATTRIBUTE[@name='Promised Retention Time in Months'] !=''">bpaas:hasRetentionTimeInMonths <xsl:value-of select="./ATTRIBUTE[@name='Promised Retention Time in Months']"/> ;</xsl:if>
-    <xsl:if test="./ATTRIBUTE[@name='Promised Retention Time in Weeks'] !=''">bpaas:hasRetentionTimeInWeeks <xsl:value-of select="./ATTRIBUTE[@name='Promised Retention Time in Weeks']"/> ;</xsl:if>
-    <xsl:if test="./ATTRIBUTE[@name='Max Restore Time in min'] !=''">bpaas:hasRestoreTime<xsl:value-of select="./ATTRIBUTE[@name='Max Restore Time in min']"/> ;</xsl:if>
- <xsl:if test="./ATTRIBUTE[@name='Promised Backup Frequency'] !=''">bpaas:hasBackupFrequency<xsl:value-of select="./ATTRIBUTE[@name='Promised Backup Frequency']"/> ;</xsl:if>
-	 <xsl:if test="./ATTRIBUTE[@name='Offered Payment Plan Annotation'] !=''">bpaas:hasPaymentPlan<xsl:value-of select="./ATTRIBUTE[@name='Offered Payment Plan Annotation']"/> ;</xsl:if> 
-	<xsl:if test="./ATTRIBUTE[@name='Offered User Target Annotation'] !=''">bpaas:hasTargetMarket <xsl:value-of select="./ATTRIBUTE[@name='Offered User Target Annotation']"/> ;</xsl:if> 
-	<xsl:if test="./ATTRIBUTE[@name='Data Processing Location Annotation'] !=''">bpaas:refersToALocation <xsl:value-of select="./ATTRIBUTE[@name='Data Processing Location Annotation']"/> ;</xsl:if>
-	<xsl:if test="./ATTRIBUTE[@name='Data Storage Location Annotation'] !=''">bpaas:refersToALocation <xsl:value-of select="./ATTRIBUTE[@name='Data Storage Location Annotation']"/> ;</xsl:if>
+  
+  <xsl:if test="./ATTRIBUTE[@name='Type of Encryption Annotation'] !=''">
+			<xsl:call-template name="EnumerationListParser">
+    			<xsl:with-param name="input" select="concat(./ATTRIBUTE[@name='Type of Encryption Annotation'], ';')"/>
+    			<xsl:with-param name="propertyname" select="'bpaas:WFDhasEncryptionType'"/>
+    			<xsl:with-param name="objectPrefix" select="''"/>
+			</xsl:call-template>
+		</xsl:if> 
+  
+  <xsl:if test="./ATTRIBUTE[@name='Retention Time in Years'] !='0'">bpaas:hasRetentionTimeInYears <xsl:value-of select="./ATTRIBUTE[@name='Retention Time in Years']"/> ;</xsl:if>
+  <xsl:if test="./ATTRIBUTE[@name='Retention Time in Months'] !='0'">bpaas:hasRetentionTimeInMonths <xsl:value-of select="./ATTRIBUTE[@name='Retention Time in Months']"/> ;</xsl:if>
+  <xsl:if test="./ATTRIBUTE[@name='Retention Time in Weeks'] !='0'">bpaas:hasRetentionTimeInWeeks <xsl:value-of select="./ATTRIBUTE[@name='Retention Time in Weeks']"/> ;</xsl:if>
+ 
+  <xsl:if test="./ATTRIBUTE[@name='Max Restore Time in min'] !='0'">bpaas:hasRestoreTime <xsl:value-of select="./ATTRIBUTE[@name='Max Restore Time in min']"/> ;</xsl:if>
+
+  <xsl:if test="./ATTRIBUTE[@name='Backup Frequency Annotation'] !=''">
+			<xsl:call-template name="EnumerationListParser">
+    			<xsl:with-param name="input" select="concat(./ATTRIBUTE[@name='Backup Frequency Annotation'], ';')"/>
+    			<xsl:with-param name="propertyname" select="'bpaas:hasBackupFrequency'"/>
+    			<xsl:with-param name="objectPrefix" select="''"/>
+			</xsl:call-template>
+		</xsl:if> 
+  
+  <xsl:if test="./ATTRIBUTE[@name='Offered Payment Plan Annotation'] !=''">
+			<xsl:call-template name="EnumerationListParser">
+    			<xsl:with-param name="input" select="concat(./ATTRIBUTE[@name='Offered Payment Plan Annotation'], ';')"/>
+    			<xsl:with-param name="propertyname" select="'bpaas:hasPaymentPlan'"/>
+    			<xsl:with-param name="objectPrefix" select="''"/>
+			</xsl:call-template>
+		</xsl:if>
+  
+  <xsl:if test="./ATTRIBUTE[@name='Offered User Target Annotation'] !=''">
+			<xsl:call-template name="EnumerationListParser">
+    			<xsl:with-param name="input" select="concat(./ATTRIBUTE[@name='Offered User Target Annotation'], ';')"/>
+    			<xsl:with-param name="propertyname" select="'bpaas:hasTargetMarket'"/>
+    			<xsl:with-param name="objectPrefix" select="''"/>
+			</xsl:call-template>
+		</xsl:if>
+  
+  <xsl:if test="./ATTRIBUTE[@name='Data Processing Location Annotation'] !=''">bpaas:refersToALocation <xsl:value-of select="./ATTRIBUTE[@name='Data Processing Location Annotation']"/> ;</xsl:if>
+  <xsl:if test="./ATTRIBUTE[@name='Data Storage Location Annotation'] !=''">bpaas:refersToALocation <xsl:value-of select="./ATTRIBUTE[@name='Data Storage Location Annotation']"/> ;</xsl:if>
 	
 	
 	<xsl:if test="./ATTRIBUTE[@name='24/7 Support'] ='false'">
@@ -123,6 +154,7 @@ data:<xsl:value-of select="@id"/>
 			<xsl:call-template name="EnumerationListParser">
     			<xsl:with-param name="input" select="concat(./ATTRIBUTE[@name='Support Days Coverage'], ';')"/>
     			<xsl:with-param name="propertyname" select="'bpaas:SupportServiceHasServiceSupportPeriod'"/>
+    			<xsl:with-param name="objectPrefix" select="'bpaas:'"/>
 			</xsl:call-template>
 			
     			<xsl:if test="./ATTRIBUTE[@name='Support Start Hour'] !=''">bpaas:serviceSupportStartHour  "<xsl:value-of select="substring(./ATTRIBUTE[@name='Support Start Hour'],8,13)"/>"^^xsd:time ;</xsl:if>
@@ -142,13 +174,15 @@ data:<xsl:value-of select="@id"/>
 	
 <xsl:template name="EnumerationListParser">
     <xsl:param name="input"/>
-     <xsl:param name="propertyname"/>
+    <xsl:param name="propertyname"/>
+    <xsl:param name="objectPrefix"/>
     <xsl:if test="string-length($input) &gt; 0">
       <xsl:variable name="v" select="substring-before($input, ';')"/>
-      <xsl:value-of select="$propertyname"/> bpaas:<xsl:value-of select="$v"/> ;
+      <xsl:value-of select="$propertyname"/><xsl:text> </xsl:text><xsl:value-of select=" $objectPrefix"/><xsl:value-of select="$v"/> ;
       <xsl:call-template name="EnumerationListParser">
         <xsl:with-param name="input" select="substring-after($input, ';')"/>
         <xsl:with-param name="propertyname" select="$propertyname"/>
+        <xsl:with-param name="objectPrefix" select="$objectPrefix"/>
       </xsl:call-template>
     </xsl:if> 
 </xsl:template>
@@ -162,25 +196,28 @@ data:<xsl:value-of select="@id"/>
   
   <xsl:if test="./ATTRIBUTE[@name='Downtime in min/month'] !='0'">bpaas:hasDowntimePerMonthInMin <xsl:value-of select="./ATTRIBUTE[@name='Downtime in min/month']"/> ;</xsl:if> 
   
-  <!--  <xsl:if test="./ATTRIBUTE[@name='Historical Access to Data Storage'] !=''">bpaas:backupProvidesHistoricalAccess <xsl:value-of select="./ATTRIBUTE[@name='Historical Access to Data Storage']"/> ;</xsl:if> --> 
-  <!--  <xsl:if test="./ATTRIBUTE[@name='Set Expected Frequency of Storage'] !=''">bpaas:backupManagementHasExpectedFrequencyOfStorage <xsl:value-of select="./ATTRIBUTE[@name='Set Expected Frequency of Storage']"/> ;</xsl:if> --> 
   <xsl:if test="./ATTRIBUTE[@name='Data Location Annotation'] !=''">bpaas:refersToALocation <xsl:value-of select="./ATTRIBUTE[@name='Data Location Annotation']"/> ;</xsl:if>
-  <!-- <xsl:value-of select="./ATTRIBUTE[@name='What would you like to upload?']"/> ; --> 
   <xsl:if test="./ATTRIBUTE[@name='Number of Simultaneous Users'] !='0'">bpaas:hasSimultaneousUsers <xsl:value-of select="./ATTRIBUTE[@name='Number of Simultaneous Users']"/> ;</xsl:if> 
   <xsl:if test="./ATTRIBUTE[@name='Response Time Level'] !=''">bpaas:BPRhasResponseTimeLevel <xsl:value-of select="./ATTRIBUTE[@name='Response Time Level']"/> ;</xsl:if>
-  <!--  <xsl:value-of select="./ATTRIBUTE[@name='Help-Desk Response Time in min']"/> ; -->
   <xsl:if test="./ATTRIBUTE[@name='Payment Plan Annotation'] !=''">bpaas:hasPaymentPlan  <xsl:value-of select="./ATTRIBUTE[@name='Payment Plan Annotation']"/> ;</xsl:if> 
-  <!--  <xsl:if test="./ATTRIBUTE[@name='Payment Type'] !=''">bpaas:paymentPlanHasPaymentType <xsl:value-of select="./ATTRIBUTE[@name='Payment Type']"/> ;</xsl:if> --> 
   <xsl:if test="./ATTRIBUTE[@name='What would you like to upload?'] !=''">bpaas:BPRhasMediaType <xsl:value-of select="./ATTRIBUTE[@name='What would you like to upload?']"/> ;</xsl:if> 
   <xsl:if test="./ATTRIBUTE[@name='Number of Process Execution per Year'] !='0'">bpaas:BPRhasNumberOfProcessExecution <xsl:value-of select="./ATTRIBUTE[@name='Number of Process Execution per Year']"/> ;</xsl:if>
   <xsl:if test="./ATTRIBUTE[@name='Access Period'] !=''">bpaas:hasBackupAccessPeriod <xsl:value-of select="./ATTRIBUTE[@name='Access Period']"/> ;</xsl:if>
-  <xsl:if test="./ATTRIBUTE[@name='Frequency of Backup'] !=''">bpaas:hasBackupFrequency <xsl:value-of select="./ATTRIBUTE[@name='Frequency of Backup']"/> ;</xsl:if> 	
-  <xsl:if test="./ATTRIBUTE[@name='Restore Time in min'] !=''">bpaas:hasRestoreTime <xsl:value-of select="./ATTRIBUTE[@name='Restore Time in min']"/> ;</xsl:if>	
-  <xsl:if test="./ATTRIBUTE[@name='Retention Time in Years'] !=''">bpaas:hasRetentionTimeInYears <xsl:value-of select="./ATTRIBUTE[@name='Retention Time in Years']"/> ;</xsl:if>
-  <xsl:if test="./ATTRIBUTE[@name='Retention Time in Months'] !=''">bpaas:hasRetentionTimeInMonths <xsl:value-of select="./ATTRIBUTE[@name='Retention Time in Months']"/> ;</xsl:if>
-    <xsl:if test="./ATTRIBUTE[@name='Retention Time in Weeks'] !=''">bpaas:hasRetentionTimeInWeeks <xsl:value-of select="./ATTRIBUTE[@name='Retention Time in Weeks']"/> ;</xsl:if>
-     <xsl:if test="./ATTRIBUTE[@name='Restore Time in min'] !=''">bpaas:hasRestoreTime <xsl:value-of select="./ATTRIBUTE[@name='Restore Time in min']"/> ;</xsl:if>
-      <xsl:if test="./ATTRIBUTE[@name='Backup Frequency'] !=''">bpaas:hasBackupFrequency <xsl:value-of select="./ATTRIBUTE[@name='Backup Frequency']"/> ;</xsl:if>
+  
+  <xsl:if test="./ATTRIBUTE[@name='Backup Frequency Annotation'] !=''">
+			<xsl:call-template name="EnumerationListParser">
+    			<xsl:with-param name="input" select="concat(./ATTRIBUTE[@name='Backup Frequency Annotation'], ';')"/>
+    			<xsl:with-param name="propertyname" select="'bpaas:hasBackupFrequency'"/>
+    			<xsl:with-param name="objectPrefix" select="''"/>
+			</xsl:call-template>
+		</xsl:if> 
+  
+  
+  
+  <xsl:if test="./ATTRIBUTE[@name='Restore Time in min'] !='0'">bpaas:hasRestoreTime <xsl:value-of select="./ATTRIBUTE[@name='Restore Time in min']"/> ;</xsl:if>	
+  <xsl:if test="./ATTRIBUTE[@name='Retention Time in Years'] !='0'">bpaas:hasRetentionTimeInYears <xsl:value-of select="./ATTRIBUTE[@name='Retention Time in Years']"/> ;</xsl:if>
+  <xsl:if test="./ATTRIBUTE[@name='Retention Time in Months'] !='0'">bpaas:hasRetentionTimeInMonths <xsl:value-of select="./ATTRIBUTE[@name='Retention Time in Months']"/> ;</xsl:if>
+  <xsl:if test="./ATTRIBUTE[@name='Retention Time in Weeks'] !='0'">bpaas:hasRetentionTimeInWeeks <xsl:value-of select="./ATTRIBUTE[@name='Retention Time in Weeks']"/> ;</xsl:if>
   <xsl:if test="./ATTRIBUTE[@name='Data Encryption Annotation'] !=''">bpaas:hasEncryptionLevel <xsl:value-of select="./ATTRIBUTE[@name='Data Encryption Annotation']"/> ;</xsl:if> 
  <xsl:if test="./ATTRIBUTE[@name='User Target Annotation'] !=''">bpaas:hasTargetMarket <xsl:value-of select="./ATTRIBUTE[@name='User Target Annotation']"/> ;</xsl:if> 
  
@@ -189,6 +226,7 @@ data:<xsl:value-of select="@id"/>
 			<xsl:call-template name="EnumerationListParser">
     			<xsl:with-param name="input" select="concat(./ATTRIBUTE[@name='Support Service'], ';')"/>
     			<xsl:with-param name="propertyname" select="'bpaas:BPRhasSupportServicePeriod'"/>
+    			<xsl:with-param name="objectPrefix" select="'bpaas:'"/>
 			</xsl:call-template>
 			
     			<xsl:if test="./ATTRIBUTE[@name='Support Start Hour'] !=''">bpaas:BPRhasSupportStartHour  "<xsl:value-of select="substring(./ATTRIBUTE[@name='Support Start Hour'],8,13)"/>"^^xsd:time ;</xsl:if>

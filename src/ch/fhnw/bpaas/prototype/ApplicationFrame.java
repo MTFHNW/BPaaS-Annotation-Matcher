@@ -59,7 +59,7 @@ public class ApplicationFrame extends BorderPane implements EventHandler<ActionE
 			File file = fileChooser.showOpenDialog(startEnvironment.getStage());
 			if (file != null) {
 				ontology.setupOntologyEnvironment();
-				centerPanel.setupCombobox();
+				centerPanel.setup();
 				startEnvironment.createAndStartParseTask(file);
 			}
 		}

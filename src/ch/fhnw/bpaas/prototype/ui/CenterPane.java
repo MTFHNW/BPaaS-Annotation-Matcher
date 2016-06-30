@@ -40,8 +40,7 @@ public class CenterPane extends BorderPane {
 		this.applicationFrame = applicationFrame;
 		this.ontology = ontology;
 		
-		createAndAddComboBoxAtTop();
-		createAndAddTableViewAtCenter();
+		setup();
 	}
 
 	private void createAndAddTableViewAtCenter() {
@@ -68,8 +67,9 @@ public class CenterPane extends BorderPane {
 		this.setTop(layout);
 	}
 	
-	public void setupCombobox() {
+	public void setup() {
 		createAndAddComboBoxAtTop();
+		createAndAddTableViewAtCenter();
 	}
 	
 	private void setSelectedBusinessProcess(SemanticObject selectedBusinessProcess) {
