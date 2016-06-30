@@ -1,0 +1,990 @@
+# baseURI: http://ikm-group.ch/archimeo/bpaas
+# imports: http://spinrdf.org/spl
+# prefix: bpaas
+
+@prefix archi: <http://ikm-group.ch/archiMEO/archimate#> .
+@prefix arg: <http://spinrdf.org/arg#> .
+@prefix bpaas: <http://ikm-group.ch/archimeo/bpaas#> .
+@prefix bpmn: <http://ikm-group.ch/archiMEO/BPMN#> .
+@prefix eo: <http://ikm-group.ch/archiMEO/eo#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sp: <http://spinrdf.org/sp#> .
+@prefix spin: <http://spinrdf.org/spin#> .
+@prefix spl: <http://spinrdf.org/spl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+bpmn:SubProcess
+  spin:rule [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object bpmn:SubProcess ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "process"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:where (
+          [
+            sp:object bpmn:SubProcess ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "sprocess"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "process"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:hasReferencedSubBusinessProcess ;
+            sp:subject [
+                sp:varName "sprocess"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+.
+<http://ikm-group.ch/archimeo/bpaas>
+  rdf:type owl:Ontology ;
+  owl:imports <http://spinrdf.org/spl> ;
+.
+bpaas:BusinessProcessRequirement
+  spin:rule [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "availability"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:hasAvailabilityInPercent ;
+            sp:subject [
+                sp:varName "req"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:where (
+          [
+            sp:object bpaas:BusinessProcessRequirement ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "req"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "val"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:hasDowntimePerMonthInMin ;
+            sp:subject [
+                sp:varName "req"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:sub ;
+                sp:arg1 100 ;
+                sp:arg2 [
+                    rdf:type sp:divide ;
+                    sp:arg1 [
+                        sp:varName "val"^^xsd:string ;
+                      ] ;
+                    sp:arg2 [
+                        rdf:type sp:mul ;
+                        sp:arg1 [
+                            rdf:type sp:mul ;
+                            sp:arg1 24 ;
+                            sp:arg2 30 ;
+                          ] ;
+                        sp:arg2 100 ;
+                      ] ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "availability"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  spin:rule [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "req"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:hasReferencedBusinessProcessRequirement ;
+            sp:subject [
+                sp:varName "bp"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:where (
+          [
+            sp:object bpaas:BusinessProcessAnnotationGroup ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "bpag"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "req"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:hasReferencedBusinessProcessRequirement ;
+            sp:subject [
+                sp:varName "bpag"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "bp"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:hasReferencedBusinessProcess ;
+            sp:subject [
+                sp:varName "bpag"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  spin:rule [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "totalsize"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:hasDataStorage ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:where (
+          [
+            sp:object bpaas:BusinessProcessRequirement ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "video"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:BPRhasMediaType ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "mediasize"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:mediaTypeHasSize ;
+            sp:subject [
+                sp:varName "video"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "num"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:BPRhasNumberOfProcessExecution ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:mul ;
+                sp:arg1 [
+                    sp:varName "num"^^xsd:string ;
+                  ] ;
+                sp:arg2 [
+                    sp:varName "mediasize"^^xsd:string ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "totalsize"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+.
+bpaas:WorkflowDescription
+  rdf:type owl:Class ;
+  spin:rule [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object bpaas:Monday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Tuesday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Wednesday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Thursday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Friday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:where (
+          [
+            sp:object bpaas:BusinessProcessRequirement ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:exists ;
+                sp:elements (
+                    [
+                      sp:object bpaas:Mon-Fri ;
+                      sp:predicate bpaas:BPRhasSupportServicePeriod ;
+                      sp:subject [
+                          sp:varName "bpr"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  spin:rule [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object bpaas:Monday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Tuesday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Wednesday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Thursday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Friday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Saturday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:where (
+          [
+            sp:object bpaas:BusinessProcessRequirement ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:exists ;
+                sp:elements (
+                    [
+                      sp:object bpaas:Mon-Sat ;
+                      sp:predicate bpaas:BPRhasSupportServicePeriod ;
+                      sp:subject [
+                          sp:varName "bpr"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  spin:rule [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object bpaas:Monday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Tuesday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Wednesday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Thursday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Friday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Saturday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Sunday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "00:00:00"^^xsd:time ;
+            sp:predicate bpaas:serviceSupportStartHour ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "23:59:59"^^xsd:time ;
+            sp:predicate bpaas:serviceSupportEndHour ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:where (
+          [
+            sp:object bpaas:BusinessProcessRequirement ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:exists ;
+                sp:elements (
+                    [
+                      sp:object <http://ikm-group.ch/archimeo/bpaas#24-7> ;
+                      sp:predicate bpaas:BPRhasSupportServicePeriod ;
+                      sp:subject [
+                          sp:varName "bpr"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  spin:rule [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object bpaas:Monday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "wd"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Tuesday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "wd"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Wednesday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "wd"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Thursday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "wd"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Friday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "wd"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Saturday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "wd"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object bpaas:Sunday ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "wd"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "00:00:00"^^xsd:time ;
+            sp:predicate bpaas:serviceSupportStartHour ;
+            sp:subject [
+                sp:varName "wd"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "23:59:59"^^xsd:time ;
+            sp:predicate bpaas:serviceSupportEndHour ;
+            sp:subject [
+                sp:varName "wd"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:where (
+          [
+            sp:object bpaas:WorkflowDescription ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "wd"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:exists ;
+                sp:elements (
+                    [
+                      sp:object <http://ikm-group.ch/archimeo/bpaas#24-7> ;
+                      sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+                      sp:subject [
+                          sp:varName "wd"^^xsd:string ;
+                        ] ;
+                    ]
+                  ) ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  spin:rule [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object "00:00:00"^^xsd:time ;
+            sp:predicate bpaas:serviceSupportStartHour ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "23:59:59"^^xsd:time ;
+            sp:predicate bpaas:serviceSupportEndHour ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:where (
+          [
+            sp:object bpaas:BusinessProcessRequirement ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:or ;
+                sp:arg1 [
+                    rdf:type sp:notExists ;
+                    sp:elements (
+                        [
+                          sp:object [
+                              sp:varName "end"^^xsd:string ;
+                            ] ;
+                          sp:predicate bpaas:BPRhasSupportEndHour ;
+                          sp:subject [
+                              sp:varName "bpr"^^xsd:string ;
+                            ] ;
+                        ]
+                      ) ;
+                  ] ;
+                sp:arg2 [
+                    rdf:type sp:exists ;
+                    sp:elements (
+                        [
+                          sp:object <http://ikm-group.ch/archimeo/bpaas#24-7> ;
+                          sp:predicate bpaas:BPRhasSupportServicePeriod ;
+                          sp:subject [
+                              sp:varName "bpr"^^xsd:string ;
+                            ] ;
+                        ]
+                      ) ;
+                  ] ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  spin:rule [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object "00:00:00"^^xsd:time ;
+            sp:predicate bpaas:serviceSupportStartHour ;
+            sp:subject [
+                sp:varName "wfd"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object "23:59:59"^^xsd:time ;
+            sp:predicate bpaas:serviceSupportEndHour ;
+            sp:subject [
+                sp:varName "wfd"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:where (
+          [
+            sp:object bpaas:WorkflowDescription ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "wfd"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:or ;
+                sp:arg1 [
+                    rdf:type sp:notExists ;
+                    sp:elements (
+                        [
+                          sp:object [
+                              sp:varName "end"^^xsd:string ;
+                            ] ;
+                          sp:predicate bpaas:serviceSupportEndHour ;
+                          sp:subject [
+                              sp:varName "wfd"^^xsd:string ;
+                            ] ;
+                        ]
+                      ) ;
+                  ] ;
+                sp:arg2 [
+                    rdf:type sp:exists ;
+                    sp:elements (
+                        [
+                          sp:object <http://ikm-group.ch/archimeo/bpaas#24-7> ;
+                          sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+                          sp:subject [
+                              sp:varName "wfd"^^xsd:string ;
+                            ] ;
+                        ]
+                      ) ;
+                  ] ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  spin:rule [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "des"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:hasReferencedWorkflowDescription ;
+            sp:subject [
+                sp:varName "wf"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:where (
+          [
+            sp:object bpmn:Lane ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "lane"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "des"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:hasReferencedWorkflowDescription ;
+            sp:subject [
+                sp:varName "lane"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "wf"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:hasReferencedWorkflow ;
+            sp:subject [
+                sp:varName "lane"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  spin:rule [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "des"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:hasReferencedWorkflowDescription ;
+            sp:subject [
+                sp:varName "wf"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:where (
+          [
+            sp:object bpaas:WorkflowAnnotationGroup ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "wfag"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "des"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:hasReferencedWorkflowDescription ;
+            sp:subject [
+                sp:varName "wfag"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "wf"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:hasReferencedWorkflow ;
+            sp:subject [
+                sp:varName "wfag"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  spin:rule [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "shr"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:serviceSupportStartHour ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "ehr"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:serviceSupportEndHour ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:where (
+          [
+            sp:object bpaas:BusinessProcessRequirement ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "ehr"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:BPRhasSupportEndHour ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "shr"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:BPRhasSupportStartHour ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  spin:rule [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "time"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:hasResponseTime ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:where (
+          [
+            sp:object bpaas:BusinessProcessRequirement ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "level"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:BPRhasResponseTimeLevel ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Bind ;
+            sp:expression [
+                rdf:type sp:if ;
+                sp:arg1 [
+                    rdf:type sp:eq ;
+                    sp:arg1 [
+                        sp:varName "level"^^xsd:string ;
+                      ] ;
+                    sp:arg2 bpaas:Low ;
+                  ] ;
+                sp:arg2 "00:10:00"^^xsd:time ;
+                sp:arg3 [
+                    rdf:type sp:if ;
+                    sp:arg1 [
+                        rdf:type sp:eq ;
+                        sp:arg1 [
+                            sp:varName "level"^^xsd:string ;
+                          ] ;
+                        sp:arg2 bpaas:Medium ;
+                      ] ;
+                    sp:arg2 "00:03:00"^^xsd:time ;
+                    sp:arg3 "00:00:30"^^xsd:time ;
+                  ] ;
+              ] ;
+            sp:variable [
+                sp:varName "time"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+  spin:rule [
+      rdf:type sp:Construct ;
+      sp:templates (
+          [
+            sp:object [
+                sp:varName "val"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:SupportServiceHasServiceSupportPeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+        ) ;
+      sp:where (
+          [
+            sp:object bpaas:BusinessProcessRequirement ;
+            sp:predicate rdf:type ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            sp:object [
+                sp:varName "val"^^xsd:string ;
+              ] ;
+            sp:predicate bpaas:BPRhasSupportServicePeriod ;
+            sp:subject [
+                sp:varName "bpr"^^xsd:string ;
+              ] ;
+          ]
+          [
+            rdf:type sp:Filter ;
+            sp:expression [
+                rdf:type sp:or ;
+                sp:arg1 [
+                    rdf:type sp:or ;
+                    sp:arg1 [
+                        rdf:type sp:or ;
+                        sp:arg1 [
+                            rdf:type sp:or ;
+                            sp:arg1 [
+                                rdf:type sp:or ;
+                                sp:arg1 [
+                                    rdf:type sp:or ;
+                                    sp:arg1 [
+                                        rdf:type sp:exists ;
+                                        sp:elements (
+                                            [
+                                              sp:object eo:CalendarMonday ;
+                                              sp:predicate rdf:type ;
+                                              sp:subject [
+                                                  sp:varName "val"^^xsd:string ;
+                                                ] ;
+                                            ]
+                                          ) ;
+                                      ] ;
+                                    sp:arg2 [
+                                        rdf:type sp:exists ;
+                                        sp:elements (
+                                            [
+                                              sp:object eo:CalendarTuesday ;
+                                              sp:predicate rdf:type ;
+                                              sp:subject [
+                                                  sp:varName "val"^^xsd:string ;
+                                                ] ;
+                                            ]
+                                          ) ;
+                                      ] ;
+                                  ] ;
+                                sp:arg2 [
+                                    rdf:type sp:exists ;
+                                    sp:elements (
+                                        [
+                                          sp:object eo:CalendarWednesday ;
+                                          sp:predicate rdf:type ;
+                                          sp:subject [
+                                              sp:varName "val"^^xsd:string ;
+                                            ] ;
+                                        ]
+                                      ) ;
+                                  ] ;
+                              ] ;
+                            sp:arg2 [
+                                rdf:type sp:exists ;
+                                sp:elements (
+                                    [
+                                      sp:object eo:CalendarThursday ;
+                                      sp:predicate rdf:type ;
+                                      sp:subject [
+                                          sp:varName "val"^^xsd:string ;
+                                        ] ;
+                                    ]
+                                  ) ;
+                              ] ;
+                          ] ;
+                        sp:arg2 [
+                            rdf:type sp:exists ;
+                            sp:elements (
+                                [
+                                  sp:object eo:CalendarFriday ;
+                                  sp:predicate rdf:type ;
+                                  sp:subject [
+                                      sp:varName "val"^^xsd:string ;
+                                    ] ;
+                                ]
+                              ) ;
+                          ] ;
+                      ] ;
+                    sp:arg2 [
+                        rdf:type sp:exists ;
+                        sp:elements (
+                            [
+                              sp:object eo:CalendarSaturday ;
+                              sp:predicate rdf:type ;
+                              sp:subject [
+                                  sp:varName "val"^^xsd:string ;
+                                ] ;
+                            ]
+                          ) ;
+                      ] ;
+                  ] ;
+                sp:arg2 [
+                    rdf:type sp:exists ;
+                    sp:elements (
+                        [
+                          sp:object eo:CalendarSunday ;
+                          sp:predicate rdf:type ;
+                          sp:subject [
+                              sp:varName "val"^^xsd:string ;
+                            ] ;
+                        ]
+                      ) ;
+                  ] ;
+              ] ;
+          ]
+        ) ;
+    ] ;
+.
